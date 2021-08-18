@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+
 //FOO STATE MANAGEMENT
 enum STATE_FOO
 {
@@ -50,19 +52,119 @@ enum STATE_ORK
 };
 enum STATE_ORK ork_state = ORK_STATE1;
 enum STATE_ORK state_ork(char c, enum STATE_ORK currentVal, int countedLength);
-int main()
+int main(int argc, char *argv[])
 {
-    char text[100];
-    printf("Type a line of text here:");
-    scanf("%s", text);
-    if (text[0] == 'E')
-        foo(text);
-    if (text[0] == 'P')
-        eep(text);
-    if (text[0] == 'Q')
-        op(text);
-    if (text[0] == 'M')
-        ork(text);
+    if (argc == 1)
+    {
+        char text[100];
+        printf("Type a line of text here:");
+        scanf("%s", text);
+        if (text[0] == 'E')
+        {
+            if (foo(text))
+            {
+                printf("%s OK", text);
+            }
+            else
+            {
+                printf("%s FAIL", text);
+            };
+        };
+        if (text[0] == 'P')
+        {
+            if (eep(text))
+            {
+                printf("%s OK", text);
+            }
+            else
+            {
+                printf("%s FAIL", text);
+            };
+        };
+        if (text[0] == 'Q')
+        {
+            if (op(text))
+            {
+                printf("%s OK\n", text);
+            }
+            else
+            {
+                printf("%s FAIL\n", text);
+            };
+        };
+        if (text[0] == 'M')
+        {
+            if (ork(text))
+            {
+                printf("%s OK\n", text);
+            }
+            else
+            {
+                printf("%s FAIL\n", text);
+            };
+        };
+    }
+    else
+    {
+        char text[100];
+        FILE *fPointer = fopen(argv[1], "r");
+        if (fPointer == NULL)
+        {
+            printf("Cannot open the file\n");
+            return 0;
+        }
+        while (!feof(fPointer))
+        {
+            fgets(text, 255, fPointer);
+            if (text[0] == 'E')
+            {
+                if (foo(text))
+                {
+                    printf("%s OK\n", text);
+                }
+                else
+                {
+                    printf("%s FAIL\n", text);
+                };
+            };
+
+            if (text[0] == 'P')
+            {
+                if (eep(text))
+                {
+                    printf("%s OK\n", text);
+                }
+                else
+                {
+                    printf("%s FAIL\n", text);
+                };
+            };
+
+            if (text[0] == 'Q')
+            {
+                if (op(text))
+                {
+                    printf("%s OK\n", text);
+                }
+                else
+                {
+                    printf("%s FAIL\n", text);
+                };
+            };
+            if (text[0] == 'M')
+            {
+                if (ork(text))
+                {
+                    printf("%s OK\n", text);
+                }
+                else
+                {
+                    printf("%s FAIL\n", text);
+                };
+            };
+        }
+        fclose(fPointer);
+    }
 }
 // int main(int argc, char* argv[]) {
 //         FILE* f;
